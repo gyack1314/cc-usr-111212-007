@@ -1,0 +1,141 @@
+{
+  "catalog": [
+    {
+      "name": "devices",
+      "columns": [
+        {
+          "id": 1,
+          "name": "id",
+          "type": "text"
+        },
+        {
+          "id": 2,
+          "name": "unit",
+          "type": "text"
+        },
+        {
+          "id": 3,
+          "name": "owner",
+          "type": "text"
+        },
+        {
+          "id": 4,
+          "name": "secret",
+          "type": "text"
+        }
+      ],
+      "rows": [
+        [
+          "d1",
+          "u1",
+          "person-a",
+          "s1"
+        ],
+        [
+          "d2",
+          "u2",
+          "person-b",
+          "s2"
+        ]
+      ]
+    },
+    {
+      "name": "inspections",
+      "columns": [
+        {
+          "id": 11,
+          "name": "id",
+          "type": "text"
+        },
+        {
+          "id": 12,
+          "name": "device",
+          "type": "text"
+        },
+        {
+          "id": 13,
+          "name": "unit",
+          "type": "text"
+        }
+      ],
+      "rows": [
+        [
+          "i1",
+          "d1",
+          "u1"
+        ],
+        [
+          "i2",
+          "d2",
+          "u2"
+        ]
+      ]
+    }
+  ],
+  "policies": [
+    {
+      "table": "devices",
+      "row": {
+        "op": "eq_attr",
+        "field": 2,
+        "attribute": "unit"
+      },
+      "columns": {
+        "1": "visible",
+        "2": "visible",
+        "3": "masked",
+        "4": "forbidden"
+      }
+    },
+    {
+      "table": "inspections",
+      "row": {
+        "op": "eq_attr",
+        "field": 13,
+        "attribute": "unit"
+      },
+      "columns": {
+        "11": "visible",
+        "12": "visible",
+        "13": "visible"
+      }
+    }
+  ],
+  "principal": {
+    "id": "viewer1",
+    "unit": "u1"
+  },
+  "policy_version": "pv1",
+  "schema_version": "sv1",
+  "queries": [
+    {
+      "kind": "select",
+      "from": {
+        "kind": "scan",
+        "table": "devices",
+        "alias": "d"
+      },
+      "project": [
+        {
+          "as": "id",
+          "expr": {
+            "col": [
+              "d",
+              1
+            ]
+          }
+        },
+        {
+          "as": "owner",
+          "expr": {
+            "col": [
+              "d",
+              3
+            ]
+          }
+        }
+      ]
+    }
+  ],
+  "mask": "prefix-sha256"
+}
